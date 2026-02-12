@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SGT CRUZ | US Army Recruiting</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <main class="card">
+        <div class="header">
+            <img src="images/1.jpg" alt="SGT CRUZ" class="profile-img">
+            <h1>SGT CRUZ</h1>
+            <div class="rank">U.S. ARMY RECRUITER</div>
+        </div>
+        <div class="content">
+            <a href="tel:3604567890" class="contact-btn">Call: (360) 456-7890</a>
+            <button id="openModalBtn" class="contact-btn" style="background: var(--army-gold); color: black;">Connect Now</button>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div>
+            <strong>Burlington Recruiting Station</strong><br>
+            623 S BURLINGTON BLVD. STE 601<br>
+            BURLINGTON, WA 98233
+        </div>
+        <div class="footer-links"> 
+            <a href="https://www.goarmy.com" target="_blank">Want to learn more ? | GoArmy.com |</a>
+        </div>
+    </footer>
+
+    <div id="applyModal" role="dialog" aria-labelledby="modal-title">
+        <div class="modal-content">
+            <h2 id="modal-title">Contact SGT CRUZ</h2>
+            <form id="hookForm">
+                <input type="text" name="b_name" class="hp-field" id="honeypot" tabindex="-1" autocomplete="off" style="display:none;">
+
+                <label for="name">Full Name</label>
+                <input type="text" id="name" required placeholder="John Doe">
+                
+                <div style="display: flex; gap: 10px;">
+                    <div style="flex: 1;">
+                        <label for="age">Age</label>
+                        <input type="number" id="age" required min="17" max="40">
+                    </div>
+                    <div style="flex: 2;">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" required placeholder="(360) 555-5555">
+                    </div>
+                </div>
+
+                <label for="email">Email Address</label>
+                <input type="email" id="email" required placeholder="name@example.com">
+
+                <label for="jobType">Interested Job Type</label>
+                <select id="jobType">
+                    <option value="Combat">Combat (Infantry, Armor, etc.)</option>
+                    <option value="Medical">Medical / Healthcare</option>
+                    <option value="Tech">Technology / Cyber</option>
+                    <option value="Engineering">Engineering / Logistics</option>
+                    <option value="Other">I'm Not Sure Yet</option>
+                </select>
+
+                <label for="contactMethod">How can we help?</label>
+                <select id="contactMethod">
+                    <option value="phone">Schedule Phone Call</option>
+                    <option value="f2f">Schedule Face to Face</option>
+                    <option value="question">Ask a Question</option>
+                </select>
+                
+                <label for="note">Why are you interested?</label>
+                <textarea id="note" rows="2" placeholder="Briefly describe your goals..."></textarea>
+
+                <div class="captcha-container">
+                    <span id="captcha-question">Loading...</span>
+                    <input type="number" id="captcha-input" style="width: 70px;" required>
+                </div>
+                
+                <button type="submit" id="submitBtn" class="contact-btn">Submit Information</button>
+                <button type="button" id="closeModalBtn" style="background:none; border:none; color:var(--error-red); cursor:pointer; width:100%; margin-top: 10px; font-weight: bold; font-size: 0.9rem;">Cancel</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
