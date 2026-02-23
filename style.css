@@ -157,3 +157,40 @@ input, select, textarea {
 /* Footer */
 .site-footer { margin-top: 40px; text-align: center; font-size: 0.7rem; color: #888; text-transform: uppercase; }
 .footer-links a { color: var(--army-gold); text-decoration: none; font-weight: bold; }
+
+
+
+
+
+
+
+
+/* Social Media Footer Styles */
+.social-icons {
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.social-icons a {
+    color: var(--white);
+    font-size: 1.5rem;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.social-icons a:hover {
+    color: var(--army-gold);
+    transform: scale(1.2);
+}
+
+.footer-address {
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.footer-links {
+    margin-top: 15px;
+    border-top: 1px solid #333;
+    padding-top: 15px;
+}
