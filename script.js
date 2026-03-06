@@ -90,3 +90,15 @@ document.getElementById('hookForm').addEventListener('submit', function(e) {
         submitBtn.innerText = "Submit Information";
     });
 });
+
+document.getElementById('studyGuideBtn').addEventListener('click', function() {
+    const content = document.getElementById('studyContent');
+    content.classList.toggle('active');
+    
+    // Smooth scroll to guide when opened
+    if (content.classList.contains('active')) {
+        setTimeout(() => {
+            content.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        }, 300);
+    }
+});
