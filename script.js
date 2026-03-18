@@ -6,12 +6,14 @@ const WEBHOOKS = {
 
 let captchaAnswer;
 
+// --- CAPTCHA & MODAL LOGIC ---
 function generateCaptcha() {
     const num1 = Math.floor(Math.random() * 9) + 1;
     const num2 = Math.floor(Math.random() * 9) + 1;
     captchaAnswer = num1 + num2;
-    document.getElementById('captcha-question').innerText = `Verify: ${num1} + ${num2} =`;
-    document.getElementById('captcha-input').value = "";
+    document.getElementById('captcha-question').innerText = `Security: ${num1} + ${num2} = `;
+    const input = document.getElementById('captcha-input');
+    if (input) input.value = "";
 }
 
 function toggleModal() {
@@ -26,17 +28,20 @@ function toggleModal() {
     }
 }
 
+// Event Listeners for Modal
 document.getElementById('openModalBtn').addEventListener('click', toggleModal);
 document.getElementById('closeModalBtn').addEventListener('click', toggleModal);
 
+// --- FORM SUBMISSION ---
 document.getElementById('hookForm').addEventListener('submit', function(e) {
     e.preventDefault();
 
+    // Honeypot check
     if (document.getElementById('honeypot').value !== "") return;
     
     const userAnswer = parseInt(document.getElementById('captcha-input').value);
     if (userAnswer !== captchaAnswer) {
-        alert("Incorrect security answer. Please try again.");
+        alert("Incorrect security answer.");
         generateCaptcha();
         return;
     }
@@ -45,44 +50,32 @@ document.getElementById('hookForm').addEventListener('submit', function(e) {
     submitBtn.disabled = true;
     submitBtn.innerText = "Sending Securely...";
 
-    // --- GRABBING THE DATA ---
-    const name = document.getElementById('name').value;
-    const age = document.getElementById('age').value;
-    const phone = document.getElementById('phone').value;
-    const email = document.getElementById('email').value;
-    const jobType = document.getElementById('jobType').value; // Added this
     const method = document.getElementById('contactMethod').value;
-    const note = document.getElementById('note').value;
-
-    let targetUrl = WEBHOOKS[method];
-    let embedColor = (method === 'f2f') ? 16764160 : (method === 'question' ? 3447003 : 4936480);
-    let typeLabel = method === 'f2f' ? "Face to Face" : (method === 'question' ? "❓ Question" : "📞 Phone Call");
-
     const payload = {
         embeds: [{
-            title: "Incoming Lead: " + typeLabel,
-            color: embedColor,
+            title: "Incoming Lead: " + method.toUpperCase(),
+            color: method === 'f2f' ? 16764160 : method === 'question' ? 3447003 : 4936480,
             fields: [
-                { name: "Name", value: name, inline: true },
-                { name: "Age", value: age, inline: true },
-                { name: "Phone", value: phone, inline: true },
-                { name: "Email", value: email, inline: false },
-                { name: "Interested Job", value: jobType, inline: true }, // Added to Discord Message
-                { name: "Notes", value: note || "No notes provided." }
+                { name: "Name", value: document.getElementById('name').value, inline: true },
+                { name: "Age", value: document.getElementById('age').value, inline: true },
+                { name: "Phone", value: document.getElementById('phone').value, inline: true },
+                { name: "Email", value: document.getElementById('email').value, inline: false },
+                { name: "Interested Job", value: document.getElementById('jobType').value, inline: true },
+                { name: "Notes", value: document.getElementById('note').value || "None" }
             ],
             timestamp: new Date()
         }]
     };
 
-    fetch(targetUrl, {
+    fetch(WEBHOOKS[method], {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
     })
     .then(() => {
-        alert('Thank you, ' + name + '. SGT CRUZ will be in touch shortly.');
+        alert('Thank you. SGT CRUZ will be in touch shortly.');
         toggleModal();
-        document.getElementById('hookForm').reset();
+        this.reset();
     })
     .catch(() => alert('System error. Please call the office directly.'))
     .finally(() => {
@@ -91,14 +84,19 @@ document.getElementById('hookForm').addEventListener('submit', function(e) {
     });
 });
 
-document.getElementById('studyGuideBtn').addEventListener('click', function() {
-    const content = document.getElementById('studyContent');
-    content.classList.toggle('active');
-    
-    // Smooth scroll to guide when opened
-    if (content.classList.contains('active')) {
-        setTimeout(() => {
-            content.scrollIntoView({ behavior: 'smooth', block: 'end' });
-        }, 300);
+// --- FOOTER TAB SYSTEM ---
+function openTab(evt, tabName) {
+    const tabcontent = document.getElementsByClassName("study-content");
+    const tablinks = document.getElementsByClassName("footer-tab-btn");
+
+    for (let i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].classList.remove('active-panel');
     }
-});
+
+    for (let i = 0; i < tablinks.length; i++) {
+        tablinks[i].classList.remove("active");
+    }
+
+    document.getElementById(tabName).classList.add('active-panel');
+    evt.currentTarget.classList.add("active");
+}
